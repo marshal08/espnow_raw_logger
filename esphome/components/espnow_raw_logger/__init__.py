@@ -1,7 +1,7 @@
 import esphome.codegen as cg
 
-espnow_ns = cg.esphome_ns.namespace("espnow_raw_logger")
-ESPNowRawLogger = espnow_ns.class_("ESPNowRawLogger", cg.Component)
+espnow_raw_logger_ns = cg.esphome_ns.namespace("espnow_raw_logger")
+ESPNowRawLogger = espnow_raw_logger_ns.class_("ESPNowRawLogger", cg.Component)
 
 CONFIG_SCHEMA = cg.Schema({})
 
