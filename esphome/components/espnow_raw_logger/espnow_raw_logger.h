@@ -1,22 +1,23 @@
 #pragma once
+
 #include "esphome/core/component.h"
-#include "esphome/components/mqtt/mqtt_client.h"
+#include <WiFi.h>
+#include <PubSubClient.h>
 #include <esp_now.h>
 
 namespace esphome {
-namespace now_mqtt_bridge {
+namespace espnow_raw_logger {
 
-class Now_MQTT_BridgeComponent : public Component {
+class ESPNowRawLogger : public Component {
  public:
   void setup() override;
-
-  void set_wifi_channel(int channel) {
-    this->wifi_channel_ = channel;
-  }
+  void loop() override;
 
  protected:
-  int wifi_channel_;
+  WiFiClient wifi_client_;
+  PubSubClient mqtt_client_;
+  void on_data_recv(const esp_now_recv_info_t *info, const uint8_t *data, int len);
 };
 
-}  // namespace now_mqtt_bridge
+}  // namespace espnow_raw_logger
 }  // namespace esphome
