@@ -1,7 +1,6 @@
 #include "espnow_raw_logger.h"
 #include "esphome/core/log.h"
 #include <esp_now.h>
-#include "esphome/components/mqtt/mqtt_client.h"
 
 namespace esphome {
 namespace espnow_raw_logger {
@@ -49,16 +48,13 @@ void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data,
     ESP_LOGI(TAG, "📨 Topic: %s", topic);
     ESP_LOGI(TAG, "📨 Payload: %s", payload);
 
-    auto mqtt = esphome::mqtt::global_mqtt_client;
+    if (this->topic_sensor != nullptr)
+      this->topic_sensor->publish_state(topic);
 
-    if (mqtt->is_connected()) {
-      bool published = mqtt->publish(topic, payload);
-      ESP_LOGI(TAG, "📤 MQTT publish %s", published ? "✅ success" : "❌ failed");
-    } else {
-      ESP_LOGW(TAG, "📡 MQTT client not connected — skipping publish");
-    }
+    if (this->payload_sensor != nullptr)
+      this->payload_sensor->publish_state(payload);
   } else {
-    ESP_LOGW(TAG, "⚠️ ESP-NOW packet too short for topic+payload structure");
+    ESP_LOGW(TAG, "⚠️ Packet too short for topic+payload structure");
   }
 }
 
