@@ -6,7 +6,8 @@
 namespace esphome {
 namespace espnow_raw_logger {
 
-class ESPNowRawLogger : public Component {
+class ESPNowRawLogger : public esphome::Component {
+
  public:
   void setup() override;
   void on_data_recv(const uint8_t *mac_addr, const uint8_t *data, int len);
