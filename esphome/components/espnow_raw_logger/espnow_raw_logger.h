@@ -17,4 +17,3 @@ class ESPNowRawLogger : public Component {
 
 }  // namespace espnow_raw_logger
 }  // namespace esphome
-
