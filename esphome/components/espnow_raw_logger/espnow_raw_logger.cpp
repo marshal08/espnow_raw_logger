@@ -14,10 +14,11 @@ void ESPNowRawLogger::setup() {
   WiFi.mode(WIFI_STA);
   esp_err_t status = esp_now_init();
   if (status != ESP_OK) {
-    ESP_LOGE(TAG, "ESP-NOW init failed: %d", status);
+    ESP_LOGE(TAG, "❌ ESP-NOW init failed: %d", status);
     return;
   }
 
+  ESP_LOGI(TAG, "📡 Registering ESP-NOW receive callback...");
   esp_now_register_recv_cb([](const uint8_t *mac_addr, const uint8_t *data, int len) {
     if (global_logger != nullptr) {
       global_logger->on_data_recv(mac_addr, data, len);
@@ -28,12 +29,14 @@ void ESPNowRawLogger::setup() {
 }
 
 void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data, int len) {
+  ESP_LOGD(TAG, "✅ ESP-NOW callback fired. Length: %d", len);
+
   char mac_str[18];
   snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
            mac_addr[0], mac_addr[1], mac_addr[2],
            mac_addr[3], mac_addr[4], mac_addr[5]);
 
-  ESP_LOGI(TAG, "🔹 Received data from %s (len=%d)", mac_str, len);
+  ESP_LOGI(TAG, "🔹 Received data from %s", mac_str);
 
   if (len >= 64) {
     char topic[32];
