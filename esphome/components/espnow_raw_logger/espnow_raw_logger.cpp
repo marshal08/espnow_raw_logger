@@ -51,21 +51,11 @@ void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data,
 
     auto mqtt = esphome::mqtt::global_mqtt_client;
 
-    // Connect to MQTT if not already connected
-    if (!mqtt->is_connected()) {
-      ESP_LOGI(TAG, "🔄 Connecting to MQTT broker...");
-      mqtt->start();
-      delay(500);  // Wait for connection
-    }
-
     if (mqtt->is_connected()) {
       bool published = mqtt->publish(topic, payload);
       ESP_LOGI(TAG, "📤 MQTT publish %s", published ? "✅ success" : "❌ failed");
-
-      ESP_LOGI(TAG, "🔌 Disconnecting MQTT...");
-      mqtt->stop();
     } else {
-      ESP_LOGW(TAG, "📡 Could not connect to MQTT broker");
+      ESP_LOGW(TAG, "📡 MQTT client not connected — skipping publish");
     }
   } else {
     ESP_LOGW(TAG, "⚠️ ESP-NOW packet too short for topic+payload structure");
