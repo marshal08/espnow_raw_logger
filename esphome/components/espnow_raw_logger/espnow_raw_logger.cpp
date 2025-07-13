@@ -38,9 +38,6 @@ void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data,
   }
 
   ESP_LOGI(TAG, "📦 Payload length: %d bytes", len);
-  for (int i = 0; i < len; i++) {
-    ESP_LOGD(TAG, "Byte %02d: 0x%02X", i, data[i]);
-  }
 
   if (len >= 64) {
     char topic[32];
@@ -50,6 +47,14 @@ void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data,
 
     ESP_LOGI(TAG, "📨 Topic: %s", topic);
     ESP_LOGI(TAG, "📨 Payload: %s", payload);
+
+    // Publish to MQTT
+    if (mqtt_client_.connected()) {
+      bool result = mqtt_client_.publish(topic, payload);
+      ESP_LOGI(TAG, "📤 MQTT publish %s", result ? "✅ successful" : "❌ failed");
+    } else {
+      ESP_LOGW(TAG, "📡 MQTT client not connected");
+    }
   } else {
     ESP_LOGW(TAG, "⚠️ ESP-NOW packet too short for topic+payload structure");
   }
