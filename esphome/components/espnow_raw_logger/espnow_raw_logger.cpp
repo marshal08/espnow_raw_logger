@@ -2,6 +2,7 @@
 #include "esphome/core/log.h"
 #include <esp_now.h>
 #include <WiFi.h>
+#include <WiFiClient.h>
 
 namespace esphome {
 namespace espnow_raw_logger {
