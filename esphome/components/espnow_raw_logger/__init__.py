@@ -7,7 +7,8 @@ CONF_TOPIC_SENSOR = "topic_sensor"
 CONF_PAYLOAD_SENSOR = "payload_sensor"
 
 espnow_raw_logger_ns = cg.esphome_ns.namespace("espnow_raw_logger")
-ESPNowRawLogger = espnow_raw_logger_ns.class_("ESPNowRawLogger", cg.Component)
+ESPNowRawLogger = espnow_raw_logger_ns.class_("ESPNowRawLogger", cg.Component, cpp=False)
+
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(ESPNowRawLogger),
