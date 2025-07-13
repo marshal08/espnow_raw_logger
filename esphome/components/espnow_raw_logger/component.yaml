@@ -1,5 +1,5 @@
 name: espnow_raw_logger
 version: "1.0.0"
 files:
-  - espnow_raw_logger.h
   - espnow_raw_logger.cpp
+  - espnow_raw_logger.h
