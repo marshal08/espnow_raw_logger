@@ -1,9 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
-#include <WiFi.h>
-#include <WiFiClient.h>
-#include <PubSubClient.h>
+#include "esphome/components/text_sensor/text_sensor.h"
 
 namespace esphome {
 namespace espnow_raw_logger {
@@ -13,9 +11,8 @@ class ESPNowRawLogger : public Component {
   void setup() override;
   void on_data_recv(const uint8_t *mac_addr, const uint8_t *data, int len);
 
- protected:
-  WiFiClient wifi_client_;
-  PubSubClient mqtt_client_;
+  text_sensor::TextSensor *topic_sensor{nullptr};
+  text_sensor::TextSensor *payload_sensor{nullptr};
 };
 
 }  // namespace espnow_raw_logger
