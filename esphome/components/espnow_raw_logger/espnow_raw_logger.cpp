@@ -29,14 +29,18 @@ void ESPNowRawLogger::setup() {
 }
 
 void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data, int len) {
-  ESP_LOGD(TAG, "✅ ESP-NOW callback fired. Length: %d", len);
+  ESP_LOGI(TAG, "✅ ESP-NOW recv callback fired");
 
-  char mac_str[18];
-  snprintf(mac_str, sizeof(mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
-           mac_addr[0], mac_addr[1], mac_addr[2],
-           mac_addr[3], mac_addr[4], mac_addr[5]);
+  if (mac_addr != nullptr) {
+    ESP_LOGI(TAG, "🔹 From MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+             mac_addr[0], mac_addr[1], mac_addr[2],
+             mac_addr[3], mac_addr[4], mac_addr[5]);
+  }
 
-  ESP_LOGI(TAG, "🔹 Received data from %s", mac_str);
+  ESP_LOGI(TAG, "📦 Payload length: %d bytes", len);
+  for (int i = 0; i < len; i++) {
+    ESP_LOGD(TAG, "Byte %02d: 0x%02X", i, data[i]);
+  }
 
   if (len >= 64) {
     char topic[32];
@@ -47,7 +51,7 @@ void ESPNowRawLogger::on_data_recv(const uint8_t *mac_addr, const uint8_t *data,
     ESP_LOGI(TAG, "📨 Topic: %s", topic);
     ESP_LOGI(TAG, "📨 Payload: %s", payload);
   } else {
-    ESP_LOGW(TAG, "⚠️ ESP-NOW packet too small (%d bytes)", len);
+    ESP_LOGW(TAG, "⚠️ ESP-NOW packet too short for topic+payload structure");
   }
 }
 
