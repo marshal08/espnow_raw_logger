@@ -1,8 +1,7 @@
-name: "espnow_raw_logger"
-description: "ESP-NOW raw message logger and MQTT bridge"
+name: espnow_raw_logger
+version: 1.0.0
+required_components:
+  - text_sensor
 files:
-  - espnow_raw_logger.cpp
   - espnow_raw_logger.h
-required: ["wifi", "mqtt"]
-libraries:
-  - PubSubClient
+  - espnow_raw_logger.cpp
