@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome import text_sensor
+import esphome.components.text_sensor as text_sensor
 from esphome.const import CONF_ID
 
 CONF_TOPIC_SENSOR = "topic_sensor"
@@ -22,4 +22,3 @@ async def to_code(config):
     cg.add(logger.topic_sensor.set_parent(topic))
     payload = await cg.get_variable(config[CONF_PAYLOAD_SENSOR])
     cg.add(logger.payload_sensor.set_parent(payload))
-
