@@ -4,3 +4,5 @@ files:
   - espnow_raw_logger.cpp
   - espnow_raw_logger.h
 required: ["wifi", "mqtt"]
+libraries:
+  - PubSubClient
