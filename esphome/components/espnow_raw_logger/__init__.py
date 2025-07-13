@@ -1,10 +1,5 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import i2c, mqtt
-from esphome.const import (
-    CONF_ID,
-)
-from esphome.core import coroutine_with_priority, CORE
 
 espnow_raw_logger_ns = cg.esphome_ns.namespace("espnow_raw_logger")
 ESPNowRawLogger = espnow_raw_logger_ns.class_("ESPNowRawLogger", cg.Component)
