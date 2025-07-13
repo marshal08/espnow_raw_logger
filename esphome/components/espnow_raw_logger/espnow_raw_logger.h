@@ -1,6 +1,8 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#include <WiFi.h>
+#include <WiFiClient.h>
 #include <PubSubClient.h>
 
 namespace esphome {
